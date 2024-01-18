@@ -1,20 +1,60 @@
 1.2 Using Custom Objects to Simulate an Orienteering System
+
 TASK 1  
 c = course("Family Fun","White",w)
+
 TASK 2
 id = idstick(123456)
+
 TASK 3 
 whos
+
 TASK 4 
 properties(id)
 methods(id)
+
 TASK 5
 id = register(id,"Astrid",c)
+
 TASK 6
 id = checkWaypoint(id,42)
 
 
 1.2 Vectors of Custom Objects
+
 TASK 1 
 c(2) = course("Insanity","Red",w2)
+
+TASK 2
+id = idstick([123456,567890,987654])
+
+TASK 3
+id(1) = register(id(1),"Astrid",c(1))
+
+TASK 4
+id(2) = register(id(2),"Erik",c(1))
+
+TASK 5
+id(1) = checkWaypoint(id(1),42
+
+
+2.1 Creating Custom Classes
+
+TASK 1 
+classdef course
+end
+
+TASK 2 
+c = course
+
+TASK 3 
+classdef course
+    properties
+        Name
+        Level
+        Waypoints
+    end  
+end
+
+TASK 4 
 
