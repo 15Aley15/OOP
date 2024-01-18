@@ -57,4 +57,328 @@ classdef course
 end
 
 TASK 4 
+c = course
+lvl = c.Level
 
+TASK 5
+c.Level = "White"
+
+TASK 6
+c.Level = 42
+
+
+2.2 Creating a Class That Contains Another Class
+TASK 1 
+classdef idstick
+    properties
+        SerialNumber
+        Status
+        Participant
+        Course
+        Timestamps
+    end 
+end
+
+TASK 2
+id = idstick
+id.SerialNumber = 1234
+
+TASK 3
+id.Course = c
+
+TASK 4
+w = id.Course.Waypoints
+
+
+2.3 Adding a Method to a Class
+TASK 1
+classdef idstick
+    properties
+        SerialNumber
+        Status
+        Participant
+        Course
+        Timestamps
+    end
+
+    methods
+        function signal(id,ok)
+            if ok
+                disp("Beep")
+            else
+                disp("Buzz")
+            end
+        end
+    end
+end
+
+TASK 2
+signal(id,true)
+
+TASK 3
+classdef idstick
+    properties
+        SerialNumber
+        Status
+        Participant
+        Course
+        Timestamps
+    end
+
+    methods
+        function signal(id,ok)
+            if ok
+                if (id.Status == "Ready") || (id.Status == "Done")
+                    disp("Beep beep")
+                else
+                    disp("Beep")
+                end
+            else
+                disp("Buzz")
+            end
+        end
+    end
+
+end
+
+
+2.3 Adding More Methods
+TASK 1
+classdef idstick
+    properties
+        SerialNumber
+        Status
+        Participant
+        Course
+        Timestamps
+    end
+
+    methods
+        function signal(id,ok)
+            if ok
+                if (id.Status == "Ready") || (id.Status == "Done")
+                    disp("Beep beep")
+                else
+                    disp("Beep")
+                end
+            else
+                disp("Buzz")
+            end
+        end
+
+        function id = register(id,name,course)
+            id.Participant = name;
+            id.Course = course;
+        end
+    end
+
+end
+
+
+TASK 2
+idout = register(id,"Erik",c)
+
+TASK 3
+p1 = id.Participant
+p2 = idout.Participant
+
+
+TASK 4
+classdef idstick
+    properties
+        SerialNumber
+        Status
+        Participant
+        Course
+        Timestamps
+    end
+
+    methods
+        function signal(id,ok)
+            if ok
+                if (id.Status == "Ready") || (id.Status == "Done")
+                    disp("Beep beep")
+                else
+                    disp("Beep")
+                end
+            else
+                disp("Buzz")
+            end
+        end
+
+        function id = register(id,name,course)
+            id.Participant = name;
+            id.Course = course;
+            id.Status = "Ready";
+            signal(id,true)
+        end
+    end
+
+end
+
+
+2.4 Adding Constructor Methods
+TASK 1
+classdef idstick
+    properties
+        SerialNumber
+        Status
+        Participant
+        Course
+        Timestamps
+    end
+
+    methods
+        function id = idstick(snum)
+            id.SerialNumber = snum;
+        end
+        
+        function signal(id,ok)
+            if ok
+                if (id.Status == "Ready") || (id.Status == "Done")
+                    disp("Beep beep")
+                else
+                    disp("Beep")
+                end
+            else
+                disp("Buzz")
+            end
+        end
+
+        function id = register(id,name,course)
+            id.Participant = name;
+            id.Course = course;
+            id.Timestamps = NaT(size(course.Waypoints));
+            id.Status = "Ready";
+            signal(id,true)
+        end
+    end
+
+end
+
+TASK 2
+id = idstick(54321)
+
+TASK 3
+classdef course
+    properties
+        Name
+        Level
+        Waypoints
+    end
+
+    methods
+        function c = course(name,lvl,waypts)
+            c.Name = name;
+            c.Level = lvl;
+            c.Waypoints = waypts;
+        end
+    end
+    
+end
+
+TASK 4
+c = course("Family Fun","White",w);
+
+
+2.5 Adding a Custom Display
+
+TASK 1
+classdef course
+    properties
+        Name
+        Level
+        Waypoints
+    end
+
+    methods
+        function c = course(name,lvl,waypts)
+            c.Name = name;
+            c.Level = lvl;
+            c.Waypoints = waypts;
+        end
+
+        function ok = checkWaypoint(c,id,wayptidx)
+            % Get the index of the previous waypoint found
+            [~,prevwpidx] = max(id.Timestamps);
+            % Current waypoint should be the next one
+            ok = (wayptidx == (1+prevwpidx));
+        end
+
+        function disp(c)
+            str = c.Level + " course '" + c.Name + "' with " + ...
+                numel(c.Waypoints) + " waypoints";
+            disp(str)
+        end
+    end
+
+end
+
+
+3.2 Storing Name, Level, and Waypoints
+
+TASK 1
+classdef course
+    properties
+        Name string
+        Level string
+        Waypoints double
+    end
+
+    methods
+        function c = course(name,lvl,waypts)
+            c.Name = name;
+            c.Level = lvl;
+            c.Waypoints = waypts;
+        end
+
+        function ok = checkWaypoint(c,id,wayptidx)
+            % Get the index of the previous waypoint found
+            [~,prevwpidx] = max(id.Timestamps);
+            % Current waypoint should be the next one
+            ok = (wayptidx == (1+prevwpidx));
+        end
+
+        function disp(c)
+            str = c.Level + " course '" + c.Name + "' with " + ...
+                numel(c.Waypoints) + " waypoints:";
+            disp(str)
+            disp(c.Waypoints)
+        end
+    end
+
+end
+
+TASK 2
+classdef course
+    properties
+        Name (1,1) string
+        Level (1,1) string
+        Waypoints (:,1) double
+    end
+
+    methods
+        function c = course(name,lvl,waypts)
+            c.Name = name;
+            c.Level = lvl;
+            c.Waypoints = waypts;
+        end
+
+        function ok = checkWaypoint(c,id,wayptidx)
+            % Get the index of the previous waypoint found
+            [~,prevwpidx] = max(id.Timestamps);
+            % Current waypoint should be the next one
+            ok = (wayptidx == (1+prevwpidx));
+        end
+
+        function disp(c)
+            str = c.Level + " course '" + c.Name + "' with " + ...
+                numel(c.Waypoints) + " waypoints:";
+            disp(str)
+            disp(c.Waypoints)
+        end
+    end
+
+end
+
+TASK 3
